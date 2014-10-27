@@ -1,0 +1,2003 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by Vogeler, Georg (Ludwigs-Maximilians-Universität) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="cei">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Wurzelelement für alle Dokumente, die den Regeln der 
+			CEI (Charters Encoding Initiative, http://www.cei.lmu.de) folgen.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="teiHeader">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">Der Dateikopf beschreibt die Datei nach den Regeln der TEI (http://www.tei-c.org), Version P4</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="fileDesc">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="titleStmt">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Den Regeln der TEI entsprechend müßten hier verschiedene Elemente verpflichtend sein: title z.B. [strict!]</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:choice minOccurs="0" maxOccurs="unbounded">
+														<xs:element ref="title"/>
+														<xs:element name="author"/>
+														<xs:element ref="p"/>
+													</xs:choice>
+												</xs:sequence>
+												<xs:attributeGroup ref="standard"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element ref="publicationStmt" minOccurs="0"/>
+										<xs:element ref="sourceDesc" minOccurs="0"/>
+									</xs:sequence>
+									<xs:attributeGroup ref="standard"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="encodingDesc" minOccurs="0"/>
+							<xs:element name="projectDesc" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice minOccurs="0" maxOccurs="unbounded">
+											<xs:element ref="p"/>
+											<xs:element ref="respStmt"/>
+										</xs:choice>
+									</xs:sequence>
+									<xs:attributeGroup ref="standard"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attributeGroup ref="standard"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="text"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="transcription"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="encodingDesc">
+		<xs:complexType mixed="true">
+			<xs:complexContent mixed="true">
+				<xs:extension base="xs:anyType">
+					<xs:attributeGroup ref="standard"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sourceDesc">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">enthält die bibliographischen Angaben der Quellen, aus denen der elektronische Text stammt.</xs:documentation>
+			<xs:documentation xml:lang="en">supplies a bibliographic description of the copy text(s) from which an electronic text was derived or generated.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="false">
+			<xs:sequence>
+				<xs:choice minOccurs="0">
+					<xs:group ref="biblArch"/>
+					<xs:element ref="p" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute name="ref">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Verweis auf die Textpassage zu der hier die Quelle angegeben wird.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publicationStmt">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Angaben zur Veröffentlichung des Textes (Zeitpunkt, rechtsverbindlicher Ort, Beschränkungen, Verantwortlichkeiten ...)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="publisher">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:anySimpleType">
+									<xs:attributeGroup ref="standard"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="pubPlace">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:anySimpleType">
+									<xs:attributeGroup ref="standard"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="availability">
+						<xs:complexType mixed="true">
+							<xs:attributeGroup ref="standard"/>
+							<xs:attribute name="status" type="xs:anySimpleType"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:group ref="date"/>
+					<xs:element ref="p"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="respStmt">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="name"/>
+					<xs:element name="resp">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">contains a phrase describing the nature of a person's intellectual responsibility.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:string">
+									<xs:attributeGroup ref="standard"/>
+									<xs:attributeGroup ref="name"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:group ref="date"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="text">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Mit type="charter" als Urkunde identifiziert</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:choice>
+				<xs:sequence minOccurs="0">
+					<xs:element name="front" minOccurs="0">
+						<xs:complexType mixed="true">
+							<xs:sequence>
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="head" type="xs:string"/>
+									<xs:group ref="biblArch"/>
+									<xs:element ref="sourceDesc"/>
+									<xs:element ref="publicationStmt"/>
+									<xs:element ref="respStmt"/>
+									<xs:group ref="textualElements"/>
+									<xs:group ref="reference"/>
+									<xs:element ref="encodingDesc"/>
+								</xs:choice>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:choice>
+						<xs:element name="body">
+							<xs:complexType>
+								<xs:choice>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+										<xs:choice minOccurs="0" maxOccurs="unbounded">
+											<xs:element ref="p"/>
+										</xs:choice>
+									</xs:sequence>
+									<xs:sequence minOccurs="0">
+										<xs:element ref="idno" minOccurs="0"/>
+										<xs:element ref="chDesc" minOccurs="0"/>
+										<xs:element ref="tenor" minOccurs="0"/>
+									</xs:sequence>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="group" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice maxOccurs="unbounded">
+										<xs:element ref="h1"/>
+										<xs:element ref="text"/>
+									</xs:choice>
+								</xs:sequence>
+								<xs:attributeGroup ref="standard"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="back" type="xs:anyType" minOccurs="0"/>
+				</xs:sequence>
+				<xs:sequence minOccurs="0">
+					<xs:element name="idno" minOccurs="0"/>
+					<xs:element ref="chDesc" minOccurs="0"/>
+					<xs:element ref="tenor" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute name="type"/>
+			<xs:attribute ref="picture"/>
+			<xs:attribute ref="certainty"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="idno" type="xs:anySimpleType">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Die Identifikationsnummer eines Objektes innerhalb der aktuellen Struktur (z.B. Nummer in einem Urkundenbuch, Bestand in einem Archiv, Handschriftensignatur in einer Bibliothek. Ist gegenüber 'refNum' vorzuziehen. [strict!]</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="chDesc">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Faßt die Metadaten einer Urkunde zusammen.</xs:documentation>
+			<xs:documentation xml:lang="en">contains the meta-data for the charter</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="abstract">
+						<xs:annotation>
+							<xs:documentation xml:lang="de">Das Regest, das den Rechtsinhalt einer Urkunde zusammenfaßt, in Editionen als kurzes "Kopfregest", in anderen Umgebungen auch als ausführliches "Langregest" mit wörtlichen Zitaten. Das Regest sollte den Aussteller und den Empfänger der Urkunde nennen. [Fließtext]</xs:documentation>
+						</xs:annotation>
+						<xs:complexType mixed="true">
+							<xs:sequence>
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:group ref="Sachauszeichnung"/>
+									<xs:element ref="quote"/>
+									<xs:element ref="foreign"/>
+									<xs:element ref="num"/>
+									<xs:element ref="issuer"/>
+									<xs:element ref="recipient"/>
+								</xs:choice>
+							</xs:sequence>
+							<xs:attributeGroup ref="standard"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="issued">
+						<xs:annotation>
+							<xs:documentation xml:lang="de">Diese Konstruktion kann allgemeine Elemente für die Beschreibung von Ausstellungsort und -zeit verwenden und ist deshalb den Konstrukten "issuePlace" und "date" bzw. "publicationStmt" vorzuziehen.	[strict!]</xs:documentation>
+						</xs:annotation>
+						<xs:complexType mixed="true">
+							<xs:sequence>
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:group ref="date"/>
+									<xs:choice>
+										<xs:element ref="issuePlace"/>
+										<xs:element ref="placeName"/>
+									</xs:choice>
+								</xs:choice>
+							</xs:sequence>
+							<xs:attributeGroup ref="standard"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element ref="witList"/>
+					<xs:element ref="diplomaticAnalysis"/>
+					<xs:element name="class" type="xs:anySimpleType">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">classifciation of the document</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="issuePlace">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ausstellungsort, zu ersetzen durch publStmt/publPlace? [strict!]</xs:documentation>
+			<xs:documentation xml:lang="en">place, where the charter is issued</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="figure">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Referenz auf ein Bild</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="figDesc" minOccurs="0">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:group ref="layout"/>
+								<xs:group ref="biblArch"/>
+							</xs:choice>
+						</xs:sequence>
+						<xs:attributeGroup ref="standard"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="graphic" minOccurs="0">
+					<xs:complexType mixed="true">
+						<xs:attribute name="url"/>
+						<xs:attributeGroup ref="standard"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="witList">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Textzeugen</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice maxOccurs="unbounded">
+					<xs:element name="witness" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation xml:lang="de">Der einzelne Textzeuge [Liste]</xs:documentation>
+						</xs:annotation>
+						<xs:complexType mixed="true">
+							<xs:sequence>
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="traditioForm">
+										<xs:annotation>
+											<xs:documentation xml:lang="de">Überlieferungsform: Original, Kopial, Insert, Transsumpt, Vidimus, Konzept. Die verwendete Begrifflichkeit ist dem VID zu entnehmen oder in der profileDesc zu dokumentieren.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType mixed="true">
+											<xs:sequence>
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:group ref="reference"/>
+													<xs:group ref="layout"/>
+													<xs:group ref="textualElements"/>
+												</xs:choice>
+											</xs:sequence>
+											<xs:attributeGroup ref="standard"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="sigil">
+										<xs:annotation>
+											<xs:documentation xml:lang="de">TEI-P5 sieht dafür das id-Attribut vor, was Sinn macht. Einziges Gegenargument, das mir einfällt: Eine ID ist eigentlich dokumentweit eindeutig, eine Sigle ist in Urkundeneditionen nur innerhalb der einen Urkunde eindeutig. Element vermeiden? [strict!]</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="standard"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="physicalDesc">
+										<xs:complexType mixed="true">
+											<xs:sequence>
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element ref="scribe"/>
+													<xs:group ref="layout"/>
+													<xs:group ref="textualElements"/>
+													<xs:element name="material">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Beschreibstoff</xs:documentation>
+															<xs:documentation xml:lang="en">describes the material on which the document is written</xs:documentation>
+														</xs:annotation>
+														<xs:complexType mixed="true"/>
+													</xs:element>
+													<xs:element ref="dimensions"/>
+													<xs:element ref="sealDesc"/>
+													<xs:element name="condition">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:choice minOccurs="0" maxOccurs="unbounded">
+																	<xs:group ref="reference"/>
+																	<xs:group ref="layout"/>
+																	<xs:group ref="textualElements"/>
+																</xs:choice>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="extent">
+														<xs:complexType mixed="true">
+															<xs:sequence>
+																<xs:choice minOccurs="0" maxOccurs="unbounded">
+																	<xs:element ref="dimensions"/>
+																</xs:choice>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:sequence>
+											<xs:attributeGroup ref="standard"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element ref="nota"/>
+									<xs:element name="auth">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">describes the authentification of the document.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType mixed="true">
+											<xs:sequence>
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element ref="sealDesc"/>
+													<xs:group ref="layout"/>
+													<xs:element ref="subscriptio"/>
+												</xs:choice>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:group ref="Sachauszeichnung"/>
+									<xs:group ref="layout"/>
+									<xs:group ref="textualElements"/>
+									<xs:group ref="reference"/>
+									<xs:group ref="biblArch"/>
+								</xs:choice>
+							</xs:sequence>
+							<xs:attribute ref="certainty" use="optional"/>
+							<xs:attribute name="type" type="xs:anySimpleType" use="optional"/>
+							<xs:attributeGroup ref="standard"/>
+							<xs:attribute name="sigil" type="xs:anySimpleType">
+								<xs:annotation>
+									<xs:documentation xml:lang="de">P5 sieht dafür das Attribut id vor. Diese Lösung ist sowohl dem Element, als auch dem Attribut vorzuziehen. [strict!]</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sealDesc">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">eine differenzierte Siegelbeschreibung [Fließtext]</xs:documentation>
+			<xs:documentation xml:lang="de">[Liste]</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="sigillant"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:element name="legend">
+						<xs:complexType mixed="true">
+							<xs:sequence>
+								<xs:group ref="transcription"/>
+							</xs:sequence>
+							<xs:attributeGroup ref="standard"/>
+							<xs:attribute name="place"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listBibl">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Bibliographische Auflistungen.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="bibl"/>
+					<xs:element ref="scope"/>
+					<xs:element ref="ref" minOccurs="0"/>
+					<xs:element ref="biblStruct"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="type">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Im Rahmen der diplomatischen Analyse sind insbesondere folgende Typen vorgesehen: "print" (Editionen), "regesta" (Regestenwerke), "facsimilia" (Reproduktionen), "studies" (Literatur, die sich mit der Urkunde beschäftigt).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="tenor">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Der eigentliche Urkundentext. [Fließtext]</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="Originalbefund"/>
+					<xs:group ref="Sachliches"/>
+					<xs:group ref="Formular"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="note">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein ergänzender Text zu einer bestimmten Textstelle, der im Druck gewöhnlich als Marginalie, Fuß- oder Endnote dargestellt wird. [Fließtext]</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="Originalbefund"/>
+					<xs:group ref="Sachliches"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="place" type="xs:anySimpleType" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Gibt die auch auf ihrer Funktion beruhende Position der Fußnote zum Text an: foot/end/margin; content|textcrit</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="reference"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="p">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="formularium"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="transcription"/>
+					<xs:group ref="biblArch"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="relevantPersonal">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="testis"/>
+				<xs:element ref="scribe"/>
+				<xs:element ref="recipient"/>
+				<xs:element ref="issuer"/>
+				<xs:element ref="sigillant"/>
+				<xs:element name="relevantPersonal">
+					<xs:complexType mixed="true">
+						<xs:group ref="layout"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="scribe">
+		<xs:annotation>
+			<xs:documentation>eine Textpassage, die einen Schreiber beschreibt. [strict!] Wie macht das die TEI mit handList und hand? Evtl. ist die Hand nur eine Teilfunktion des Schreibers, der ja auch anderweitig als Person beschrieben werden kann?</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="layout"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="reference"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="name"/>
+			<xs:attribute ref="hand"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sigillant">
+		<xs:complexType mixed="true">
+			<xs:group ref="layout"/>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="name"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="formularium">
+		<xs:choice>
+			<xs:sequence minOccurs="0">
+				<xs:element name="protocol">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:element ref="lb" minOccurs="0"/>
+								<xs:element ref="pb" minOccurs="0"/>
+								<xs:element ref="p" minOccurs="0"/>
+								<xs:group ref="transcription"/>
+								<xs:group ref="Sachauszeichnung"/>
+								<xs:group ref="reference"/>
+								<xs:element ref="invocatio"/>
+								<xs:element ref="intitulatio"/>
+								<xs:element ref="inscriptio"/>
+								<xs:element ref="publicatio"/>
+								<xs:element ref="sup"/>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="context">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:element ref="lb" minOccurs="0"/>
+								<xs:element ref="pb" minOccurs="0"/>
+								<xs:element ref="p" minOccurs="0"/>
+								<xs:element ref="sup" minOccurs="0"/>
+								<xs:group ref="transcription"/>
+								<xs:group ref="reference"/>
+								<xs:group ref="Sachauszeichnung"/>
+								<xs:element ref="arenga"/>
+								<xs:element ref="publicatio"/>
+								<xs:element ref="narratio"/>
+								<xs:element ref="dispositio"/>
+								<xs:element ref="corroboratio"/>
+								<xs:element ref="sanctio"/>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="eschatocol">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice maxOccurs="unbounded">
+								<xs:group ref="transcription"/>
+								<xs:group ref="reference"/>
+								<xs:group ref="Sachauszeichnung"/>
+								<xs:element ref="subscriptio"/>
+								<xs:element ref="datatio"/>
+								<xs:element ref="apprecatio"/>
+								<xs:group ref="layout"/>
+								<xs:group ref="textualElements"/>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element ref="invocatio" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="intitulatio" minOccurs="0"/>
+					<xs:element ref="inscriptio" minOccurs="0"/>
+				</xs:choice>
+				<xs:element ref="publicatio" minOccurs="0"/>
+				<xs:element ref="arenga" minOccurs="0"/>
+				<xs:element ref="narratio" minOccurs="0"/>
+				<xs:element ref="dispositio" minOccurs="0"/>
+				<xs:element ref="corroboratio" minOccurs="0"/>
+				<xs:element ref="sanctio" minOccurs="0"/>
+				<xs:element ref="subscriptio" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="datatio" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="apprecatio" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="setPhrase" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:choice>
+	</xs:group>
+	<xs:element name="invocatio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+					<xs:element ref="pict"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="intitulatio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="inscriptio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publicatio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="arenga">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="narratio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+					<xs:element ref="setPhrase" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dispositio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+					<xs:element ref="setPhrase" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="corroboratio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="reference"/>
+					<xs:element ref="setPhrase" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="relevantPersonal"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="subscriptio">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Unterschriftsbestandteile, wie echte Unterschriftszeilen, Signumzeilen, Gegenzeichnungen durch Kanzleimitarbeiter usw.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+					<xs:element ref="setPhrase" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="notariusSign" minOccurs="0"/>
+					<xs:element ref="notariusSub" minOccurs="0"/>
+					<xs:element name="notariusStruct">
+						<xs:complexType mixed="true">
+							<xs:sequence>
+								<xs:element ref="notariusSign" minOccurs="0"/>
+								<xs:element ref="notariusSub" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element ref="pict"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="type">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Die Unterscheidung in "Signumzeile", "Rekognitionszeile", "Notarsunterschrift" (vgl. notariusSub: [strict!]) etc. Der verwendete Sprachgebrauch sollte sich an das VID anlehnen oder in der encodingDesc beschrieben werden.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="datatio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+					<xs:element ref="setPhrase" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="type"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="apprecatio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="setPhrase">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">eine stark festgelegte Textpassage, die sich nur durch die individuellen Bedingungen (Zeit, Ort, Person, syntaktische Einbindung) verändert, die aber keine strukturierende Funktion im Sinne des Urkundenformulars hat. Soweit möglich sollte sich der Inhalt des Attributs "type" an der Terminologie des "Vocabulaire Internationale de Diplomatique" orientieren.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="type"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="transcription">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="abbr"/>
+				<xs:element ref="add"/>
+				<xs:element ref="del"/>
+				<xs:element ref="corr"/>
+				<xs:element name="space">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">Ein signifikant großer unbeschriebener Raum in der Transkriptionsvorlage. Der Leerraum wird mit den Attributen "dim" (horizontal/vertical) und "extent" (Größe) beschrieben: Z.B. dim="vertical" extent="4 Zeilen".
+						Ist die Lücke durch eine Rasur entstanden, ist ein leeres Element "del" vorzuziehen.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element ref="desc"/>
+						</xs:sequence>
+						<xs:attributeGroup ref="standard"/>
+						<xs:attribute name="dim"/>
+						<xs:attribute name="extent"/>
+						<xs:attributeGroup ref="transcription"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="damage">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">enthält beschädigte Passagen, d.h. Stellen, in denen die physischen Eigenschaften des Textes ihn nur schwer oder gar nicht entzifferbar machen.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence minOccurs="0">
+							<xs:element ref="desc"/>
+						</xs:sequence>
+						<xs:attributeGroup ref="standard"/>
+						<xs:attributeGroup ref="transcription"/>
+						<xs:attribute name="agent" type="xs:anySimpleType"/>
+						<xs:attribute name="degree" type="xs:anySimpleType"/>
+						<xs:attribute name="extent" type="xs:anySimpleType"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="handShift">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">ein Handwechsel im Dokument. Das Attribut "hand" benennt die Hand des folgenden Textes, falls z.B. über eine Referenz auf eine Liste der Schreiber (Element handList) möglich. [Liste]</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="false">
+						<xs:attributeGroup ref="standard"/>
+						<xs:attribute ref="hand"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="sic"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="app">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Varianten anderer kopialer Überlieferungen werden über das Referenzwort als Element "lem" und die Varianten als Elemente "rdg" mit dem Attribut "sigil" für die Sigle.</xs:documentation>
+			<xs:documentation xml:lang="en">note in a critical apparatus listing variants</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="lem">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">Die im Haupttext erscheinende Version.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:group ref="Sachauszeichnung"/>
+								<xs:group ref="biblArch"/>
+								<xs:group ref="layout"/>
+								<xs:group ref="reference"/>
+								<xs:group ref="textualElements"/>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="rdg" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">reading</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:group ref="biblArch"/>
+								<xs:group ref="layout"/>
+								<xs:group ref="reference"/>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute ref="resp"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="abbr">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Der Buchstabenbestand einer Abkürzung.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:group ref="layout"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="expan">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Die ausgeschriebene Version der Abkürzung.</xs:documentation>
+					<xs:appinfo/>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute ref="type">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">In diesem Fall insbesondere die zeichenhaften Elemente der Abkürzung beschreibend, z.B. "Kontraktionskürzung mit Strich durch die Oberlänge".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="expan">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Der ausgeschriebene Text einer Abkürzung.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:anySimpleType">
+					<xs:attribute ref="abbr">
+						<xs:annotation>
+							<xs:documentation xml:lang="de">Die Buchstaben der Abkürzung</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attributeGroup ref="standard"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="gap">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="ref" minOccurs="0"/>
+					<xs:element ref="desc"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="type"/>
+			<xs:attributeGroup ref="content.gap"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sic">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein Text, der augenfällige Fehler aufweist, aber in der Vorlage so steht. Aber auch für den Text, der vor einer Korrektur stand.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence minOccurs="0">
+				<xs:element ref="desc"/>
+			</xs:sequence>
+			<xs:attribute name="corr" type="xs:anySimpleType" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Der an dieser Stelle korrigierte Text.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="transcription"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="corr">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Eine Textpassage, die im Text zunächst anders lautete und dann mit dem Inhalt des Elements korrigiert worden ist.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="p" minOccurs="0"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="biblArch"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:element ref="desc"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="sic" type="xs:anySimpleType">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Der ursprünglichen Text vor der Korrektur.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="transcription"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="del">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein noch lesbarer Text der im Original getilgt worden ist (z.B. durch Durchstreichen, Unterpunkten, Rasur).</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence minOccurs="0">
+				<xs:element ref="desc"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="resp"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="add">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Nachträgliche Hinzufügungen im Text, die nicht anderen Text ersetzen.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="p" minOccurs="0"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="biblArch"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:element ref="desc"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="resp"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="reg">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="p" minOccurs="0"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="biblArch"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:element ref="desc"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="resp"/>
+			<xs:attribute name="orig"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="pict">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">graphische, zeichenartige Elemente im Text. Mit Hilfe des type-Attribut genauer zu bestimmen, mit entity oder URL auf eine externe Art der Darstellung zu verweisen.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="type"/>
+			<xs:attribute name="entity" type="xs:anySimpleType"/>
+			<xs:attribute name="URL" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="desc">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">In Transkriptionen werden viele Beobachtungen gemacht, die sich mit den in der TEI vorhandenen Elementen gut beschreiben lassen, deren Attribute sie aber den Befund unzureichend beschreiben. Um nicht auf note-Elemente ausweichen zu müssen, sondern möglichst semantisch auszeichnen zu können, dient das "desc"-Element dazu, ausführliche Beschreibungen aufzunehmen.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="biblArch"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="resp"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="BibliographicInformation">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="author" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">Der Autor eines Textes. Insbesondere im Rahmen einer bibliographischen Angabe gebraucht.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attributeGroup ref="standard"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="title" minOccurs="0">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attributeGroup ref="standard"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="imprint" minOccurs="0">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:element ref="scope"/>
+								<xs:element name="pubPlace">
+									<xs:complexType>
+										<xs:simpleContent>
+											<xs:extension base="xs:string">
+												<xs:attributeGroup ref="standard"/>
+											</xs:extension>
+										</xs:simpleContent>
+									</xs:complexType>
+								</xs:element>
+								<xs:group ref="date"/>
+							</xs:choice>
+						</xs:sequence>
+						<xs:attributeGroup ref="standard"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="refNum" minOccurs="0"/>
+				<xs:element ref="scope"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="biblArch">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="arch"/>
+				<xs:element ref="archFond"/>
+				<xs:element ref="archStruct"/>
+				<xs:element ref="provenance"/>
+				<xs:element ref="bibl"/>
+				<xs:element ref="biblStruct"/>
+				<xs:group ref="BibliographicInformation"/>
+				<xs:element ref="listBibl"/>
+				<xs:element ref="msIdentifier"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="archStruct">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Eine stark strukturierte Angabe zu einem Fundort im Archiv</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="arch"/>
+				<xs:element ref="archFond"/>
+				<xs:element ref="refNum" minOccurs="0"/>
+				<xs:element ref="idno" minOccurs="0"/>
+				<xs:element ref="scope" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="biblStruct">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Eine stark strukturierte bibliographische Angabe. [Liste]</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:choice>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:element name="monogr">
+						<xs:complexType mixed="true">
+							<xs:group ref="BibliographicInformation"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="bibl">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Bibliographische Angaben. Es ist zu diskutieren, ob das Element auch für kanonische Angaben (wie z.B. Bibelzitate) verwendet werden kann, oder ob dafür ein eigenes Element notwendig ist. [strict!] [Liste]</xs:documentation>
+			<xs:documentation xml:lang="en">Bibliographic informations</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="author" minOccurs="0">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:string">
+									<xs:attributeGroup ref="standard"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element ref="title" minOccurs="0"/>
+					<xs:element name="imprint" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="pubPlace">
+									<xs:complexType>
+										<xs:simpleContent>
+											<xs:extension base="xs:string">
+												<xs:attributeGroup ref="standard"/>
+											</xs:extension>
+										</xs:simpleContent>
+									</xs:complexType>
+								</xs:element>
+								<xs:group ref="date"/>
+							</xs:sequence>
+							<xs:attributeGroup ref="standard"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="foreign"/>
+					<xs:element ref="quote"/>
+					<xs:element ref="cit"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:choice>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="type">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Es stellt sich die Frage, ob eine individuelle Funktionszuordnung konzeptionell sinnvoll ist und klugerweise mit dem "type"-Attribut gemacht werden soll. [strict!]</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="title">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="standard"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="refNum">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Referenznummer in einem Archiv oder einer Bibliothek, Signatur innerhalb eines Bestandes. In P5 für Handschriften durch "idno" ersetzt, was Sinn macht, deshalb vorzuziehen. [strict!]</xs:documentation>
+			<xs:documentation xml:lang="en">archive or library reference number</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="standard"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="scope">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Umfang einer bibliographischen Angabe, insbesondere in einem übergeordneten bibliographsichen Zusammenhang. Z.B. die Seitenzahlen eines Aufsatzes in einem Sammelband, die Fundstelle einer Urkunde in einem Kopialbuch.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:anySimpleType">
+					<xs:attributeGroup ref="standard"/>
+					<xs:attribute ref="type"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="arch">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Das Archiv als im Moment der Textentstehung existierende Institution, die Schriftgut aus der Vergangenheit verwahrt.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="ref" type="xs:anySimpleType" use="optional"/>
+					<xs:attribute ref="expan"/>
+					<xs:attributeGroup ref="standard"/>
+					<xs:attribute ref="abbr"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="archFond">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein Bestand in einem Archiv, d.h. gewöhnlich eine Gruppe von Archivgut, das in einem Provenienzzusammenhang steht.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute ref="expan"/>
+					<xs:attributeGroup ref="standard"/>
+					<xs:attribute ref="abbr"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="provenance">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Die archivische Provenienz, d.h. die Registratur oder das erste Archiv, das die Urkunde nach ihrem aktiven Gebrauch verwahrt hat.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:group ref="biblArch"/>
+			<xs:attribute ref="abbr"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="msIdentifier">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Die Bezeichnung einer Handschrift mit Lagerort und Signatur/Bezeichnung innerhalb der lagernden Institution.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="settlement"/>
+					<xs:element ref="repository"/>
+					<xs:element ref="idno"/>
+					<xs:element ref="scope"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="repository" type="xs:anySimpleType">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Die Einrichtung, in der ein Objekt gelagert ist.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:group name="Sachauszeichnung">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="persName"/>
+				<xs:element ref="index"/>
+				<xs:group ref="date"/>
+				<xs:group ref="Geographie"/>
+				<xs:element ref="measure"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="date">
+		<xs:choice>
+			<xs:element ref="date"/>
+			<xs:element ref="dateRange"/>
+		</xs:choice>
+	</xs:group>
+	<xs:element name="index">
+		<xs:complexType mixed="true">
+			<xs:sequence minOccurs="0">
+				<xs:choice>
+					<xs:element name="term">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:anySimpleType">
+									<xs:attributeGroup ref="standard"/>
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element ref="index"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute name="ref" type="xs:anySimpleType"/>
+			<xs:attribute name="lemma" type="xs:anySimpleType"/>
+			<xs:attribute name="sublemma" type="xs:anySimpleType"/>
+			<xs:attribute name="indexName" type="xs:anySimpleType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="date">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Die Angabe eines spezifischen Tages in einem Kalender (=Datumsangabe).</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice>
+					<xs:group ref="transcription"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="value"/>
+			<xs:attribute ref="certainty"/>
+			<xs:attribute name="calendar" type="xs:string"/>
+			<xs:attribute ref="type"/>
+			<xs:attribute ref="function"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dateRange">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute name="from" type="xs:string"/>
+			<xs:attribute name="to" type="xs:string"/>
+			<xs:attribute name="exact" type="xs:string"/>
+			<xs:attribute name="calendar" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="persName">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="name"/>
+					<xs:element ref="placeName"/>
+					<xs:element ref="persName"/>
+					<xs:element ref="res"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="transcription"/>
+					<xs:group ref="reference"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute ref="type"/>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="name"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="testis">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein einzelner Zeuge.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="name"/>
+					<xs:element ref="placeName"/>
+					<xs:element ref="persName"/>
+					<xs:element ref="res"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="transcription"/>
+					<xs:group ref="reference"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="name"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="res">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:anySimpleType">
+					<xs:attributeGroup ref="standard"/>
+					<xs:attribute name="ref" type="xs:anySimpleType"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="name">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:group ref="layout"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="reference"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="Geographie">
+		<xs:choice>
+			<xs:choice>
+				<xs:element ref="placeName"/>
+				<xs:element ref="geogName"/>
+			</xs:choice>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="settlement"/>
+					<xs:element ref="region"/>
+					<xs:element ref="country"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:choice>
+	</xs:group>
+	<xs:element name="region"/>
+	<xs:element name="country"/>
+	<xs:element name="settlement">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="placeName">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="settlement"/>
+					<xs:element ref="region"/>
+					<xs:element ref="country"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="transcription"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute ref="type" use="optional"/>
+			<xs:attributeGroup ref="name"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="geogName">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="placeName"/>
+					<xs:element ref="region"/>
+					<xs:element ref="country"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="transcription"/>
+					<xs:element ref="settlement"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="name"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="reference">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="ref"/>
+				<xs:element ref="ptr"/>
+				<xs:element ref="note"/>
+				<xs:element ref="figure"/>
+				<xs:element name="anchor">
+					<xs:annotation>
+						<xs:documentation xml:lang="de">Milestone-Element, wird angesprochen in target="#ID"</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:ID">
+								<xs:attributeGroup ref="standard"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="ptr">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein leeres Element, das auf ein anderes Element im Text verweist, das ein id-Attribut besitzt. Die ID des Zieles wird im Attribut target notiert. Verweise auf Elemente außerhalb des aktuellen Dokuments sind mit dem Element xptr zu verwirklichen. Ist der Verweis als Textpassage im aktuellen Element ausformuliert, ist das Element "ref" zu verwenden.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="standard"/>
+					<xs:attributeGroup ref="reference"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ref">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Das Element enthält eine Textpassage, die auf eine anderes Element im Text verweist, das ein id-Attribut besitzt. Die ID des Zieles wird im Attribut "target" angegeben. Verweise auf Elemente außerhalb des aktuellen Dokuments sind mit dem Element xref zu verwirklichen. Ersetzt das Tag einen textlichen Verweis bzw. wird der Verweistext automatisch erzeugt, ist das Element "ptr" zu verwenden.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:anySimpleType">
+					<xs:attributeGroup ref="standard"/>
+					<xs:attributeGroup ref="reference"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="layout">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Diese ganze Gruppe ist auf ihre Relevanz hin zu überprüfen, da sie graphische nicht semantische Informationen auszuzeichnen scheint. [strict!]</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="hi"/>
+				<xs:element ref="lb"/>
+				<xs:element ref="pb"/>
+				<xs:element ref="sup"/>
+				<xs:element ref="c"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="sup">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein hochgestelltes Zeichen, dessen logische Funktion "hochgestellt" ist, macht das Sinn? Evtl. nur MOM spezifisch! [strict!] Der in Urkunden relevante Fall sind die Ordinalzahlen, in denen das hochgestellte Zeichen nämlich nicht für eine Abkürzung steht, sondern den Bezug einer Zahlenangabe über die Endung markiert. Die TEI sähe für Ordinalzahlen das Element "num", das mit den Attributen type und value die Funktion als Ordinalzahl und den eigentlichen Wert notiert. Es bleibt dabei jedoch unklar, wie zwischen dem Zahlzeichen und seiner Markierung als Ordinalzahl unterschieden werden kann.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="lb">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Zeilenwechsel in der Vorlage.</xs:documentation>
+			<xs:documentation xml:lang="en">Line break in the source.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="pb">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Seitenwechsel in der Vorlage.</xs:documentation>
+			<xs:documentation xml:lang="en">Page break in the source.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="c">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein einzelnes Zeichen in der Vorlage, das nicht mit dem gewählten Zeichensatz dargestellt werden kann. Die Art und Weise der Darstellung und Verarbeitung ist in der encodingDesc zu beschreiben.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="standard"/>
+			<xs:attribute ref="type">
+				<xs:annotation>
+					<xs:documentation xml:lang="de">Der Name des Zeichens, wie er in der encodingDesc/profileDesc auftaucht und mit einer Darstellungsform versehen wird.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="hi">
+		<xs:annotation>
+			<xs:documentation>durch graphische Merkmale hervorgehobene Textpassagen, die keine rein inhaltliche Funktion haben, z.B. vergrößerte Initialen, gesperrte Texte, Texte zwischen Referenzpunkten, Elongata</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="formularium"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="textualElements">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="h1"/>
+				<xs:element ref="h2"/>
+				<xs:element ref="p"/>
+				<xs:element ref="list"/>
+				<xs:element ref="foreign"/>
+				<xs:element ref="cit"/>
+				<xs:element ref="quote"/>
+				<xs:element ref="div"/>
+				<xs:element ref="num"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="div">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Jede beliebige Art von Textabschnitt, die einen inhaltlichen Sinnabschnitt von mindestens einem Absatz umschließt und nicht durch speziellere Elemente (z.B. Formularteile, abstract) beschrieben werden kann.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="foreign">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Eine Textpassage, die nicht in der in der übergeordnet definierten Sprache formuliert ist (z.B. deutsche Namen in lateinischen Urkunden, eingeflochtene lateinische Textpassagen im deutschen Vorspann etc.)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cit">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein wörtliches Zitat gemeinsam mit der Herkunftsangabe. Die Quelle dabei nicht auf explizit bibliographische Angaben beschränkt, sondern kann auch kanonische Referenzen (wie z.B. Bibelzitate) enthalten.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element ref="quote"/>
+				<xs:element ref="bibl"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="quote" type="xs:anyType">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">enthält ein wörtliches Zitat. Die TEI sieht das Element für intertextuelle Zitate vor. Alternativ und lauf Guidelines der TEI im Zweifelsfall vorzuziehen ist das Element "q" vor, das für intratextuelle Zitate zu verwenden ist. Da in Urkunden jedoch Zitate gewöhnlich aus einer externen Textquelle schöpfen und nicht einem anderen Sprecher im Text zugeordnet sind, ist in diesem Kontext das Element "quote" im Zweifelsfall vorzuziehen. [strict!] Zu diskutieren ist nur der Fall eines angekündigten wörtlichen Zitats, z.B: wir bestätigen die Urkunde unseres Vaters die folgenden Wortlaut hat: ....</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="h1">
+		<xs:complexType mixed="true">
+			<xs:simpleContent>
+				<xs:extension base="xs:anySimpleType">
+					<xs:attributeGroup ref="standard"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="h2">
+		<xs:complexType mixed="true">
+			<xs:simpleContent>
+				<xs:extension base="xs:anySimpleType">
+					<xs:attributeGroup ref="standard"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="list">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="item"/>
+			</xs:sequence>
+			<xs:attribute ref="type"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="item">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="relevantPersonal"/>
+					<xs:group ref="layout"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="reference">
+		<xs:attribute ref="type"/>
+		<xs:attribute ref="resp"/>
+		<xs:attribute ref="target"/>
+		<xs:attribute ref="key"/>
+	</xs:attributeGroup>
+	<xs:attribute name="target" type="xs:anySimpleType"/>
+	<xs:attributeGroup name="certain">
+		<xs:attribute ref="certainty"/>
+		<xs:attribute ref="resp"/>
+	</xs:attributeGroup>
+	<xs:attribute name="certainty" type="xs:anySimpleType">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Für Genauigkeitsangaben z.B. bei Datierungen, werden mit Schlüsselwörtern (zu benennen in der encodingDesc) oder kurzen Beschreibungen charakterisiert werden. auch für Fälschungsmarkierungen? [strict!]</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attributeGroup name="identification">
+		<xs:attribute name="reg" type="xs:anySimpleType"/>
+		<xs:attribute name="existent" type="xs:anySimpleType" default="Yes">
+			<xs:annotation>
+				<xs:documentation xml:lang="de">Wüstungen, abgekommene Orte sind: "no"</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute ref="certainty"/>
+		<xs:attribute ref="resp"/>
+	</xs:attributeGroup>
+	<xs:attribute name="resp" type="xs:anySimpleType"/>
+	<xs:attribute name="type" type="xs:anySimpleType"/>
+	<xs:attribute name="picture" type="xs:anySimpleType"/>
+	<xs:attributeGroup name="content.gap">
+		<xs:attribute name="corresp"/>
+		<xs:attribute name="synch"/>
+		<xs:attribute name="sameAs"/>
+		<xs:attribute name="copyOf"/>
+		<xs:attribute name="next"/>
+		<xs:attribute name="prev"/>
+		<xs:attribute name="exclude"/>
+		<xs:attribute name="select"/>
+		<xs:attribute name="ana"/>
+		<xs:attribute name="id"/>
+		<xs:attribute name="n"/>
+		<xs:attribute name="lang"/>
+		<xs:attribute name="rend"/>
+		<xs:attribute name="desc"/>
+		<xs:attribute name="reason"/>
+		<xs:attribute name="resp"/>
+		<xs:attribute name="hand"/>
+		<xs:attribute name="agent"/>
+		<xs:attribute name="extent"/>
+		<xs:attribute name="TEIform" default="gap"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="name">
+		<xs:attribute ref="function" use="optional"/>
+		<xs:attribute ref="key"/>
+		<xs:attributeGroup ref="identification"/>
+	</xs:attributeGroup>
+	<xs:attribute name="function" type="xs:anySimpleType">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Funktion des Tags im besonderen Kontext: z.B. Datum als ... ist so eigentlich nicht richtig.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="key" type="xs:anySimpleType">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Ein eindeutiger Bezeichner, der in einer externen Liste aufgelöst werden kann.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attributeGroup name="date">
+		<xs:attribute ref="value"/>
+		<xs:attribute ref="certainty"/>
+	</xs:attributeGroup>
+	<xs:attribute name="value" type="xs:long"/>
+	<xs:attributeGroup name="abbreviation">
+		<xs:attribute ref="expan"/>
+		<xs:attribute ref="abbr"/>
+	</xs:attributeGroup>
+	<xs:attribute name="abbr" type="xs:anySimpleType"/>
+	<xs:attribute name="expan" type="xs:anySimpleType"/>
+	<xs:attributeGroup name="standard">
+		<xs:attribute ref="id"/>
+		<xs:attribute ref="n"/>
+		<xs:attribute ref="rend"/>
+		<xs:attribute ref="lang"/>
+	</xs:attributeGroup>
+	<xs:attribute name="id" type="xs:anySimpleType"/>
+	<xs:attribute name="n" type="xs:anySimpleType"/>
+	<xs:attribute name="lang" type="xs:anySimpleType"/>
+	<xs:attribute name="rend" type="xs:anySimpleType"/>
+	<xs:attributeGroup name="transcription">
+		<xs:attribute ref="resp"/>
+		<xs:attribute ref="type"/>
+		<xs:attribute ref="hand"/>
+		<xs:attribute ref="certainty"/>
+	</xs:attributeGroup>
+	<xs:attribute name="hand"/>
+	<xs:attributeGroup name="Overlap">
+		<xs:attribute name="spanTo"/>
+		<xs:attributeGroup ref="reference"/>
+	</xs:attributeGroup>
+	<xs:element name="dimensions">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Maße des Schrifträgers (Höhe x Breite oder in eigenen Elementen)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="height" type="xs:anySimpleType"/>
+				<xs:element name="width" type="xs:anySimpleType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="nota">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Enthält Vermerke der ausstellenden Kanzlei auf der Urkunde. Für Archivvermerke beim Empfänger vgl. ###</xs:documentation>
+			<xs:documentation xml:lang="en">contains the extra sigillum notes on the document.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="Sachauszeichnung"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute ref="type" use="optional"/>
+			<xs:attribute name="position" type="xs:anySimpleType" use="optional"/>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="notariusSign" type="xs:anySimpleType"/>
+	<xs:element name="notariusSub" type="xs:anySimpleType"/>
+	<xs:element name="diplomaticAnalysis">
+		<xs:annotation>
+			<xs:documentation xml:lang="de">Enthält Bemerkungen zur diplomatischen Kritik der Urkunde, die formale Beobachtungen der inneren wie äußeren Merkmale ebenso wie inhaltliche Überlegungen enthalten kann. [Fließtext]</xs:documentation>
+			<xs:documentation xml:lang="en">contains a diplomatic analysis of the document, formal critics or critics by the content.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="biblArch"/>
+					<xs:group ref="textualElements"/>
+					<xs:group ref="relevantPersonal"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sanctio">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:group ref="transcription"/>
+					<xs:group ref="Sachauszeichnung"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="reference"/>
+					<xs:group ref="textualElements"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="num">
+		<xs:complexType mixed="true">
+			<xs:attribute ref="type"/>
+			<xs:attribute ref="value"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recipient">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The name of the person who is receives the document.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="name"/>
+					<xs:element ref="placeName"/>
+					<xs:element ref="persName"/>
+					<xs:element ref="res"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="transcription"/>
+					<xs:group ref="reference"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="name"/>
+			<xs:attribute ref="target"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="issuer">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">marks a person the CID describes as follows:
+L'auteur d'un acte écrit est la personne au nom de qui cet acte est intitulé.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="name"/>
+					<xs:element ref="placeName"/>
+					<xs:element ref="persName"/>
+					<xs:element ref="res"/>
+					<xs:group ref="layout"/>
+					<xs:group ref="transcription"/>
+					<xs:group ref="reference"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="standard"/>
+			<xs:attributeGroup ref="name"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="measure">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="standard"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="Originalbefund">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:group ref="transcription"/>
+				<xs:element ref="hi"/>
+				<xs:element ref="p"/>
+				<xs:element ref="pb"/>
+				<xs:element ref="lb"/>
+				<xs:element ref="c"/>
+				<xs:element ref="sup"/>
+				<xs:element ref="pict"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="Sachliches">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:group ref="Sachauszeichnung"/>
+				<xs:element ref="quote"/>
+				<xs:element ref="foreign"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="Formular">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="inscriptio"/>
+				<xs:element ref="publicatio"/>
+				<xs:element ref="narratio"/>
+				<xs:element ref="dispositio"/>
+				<xs:element ref="corroboratio"/>
+				<xs:element ref="datatio"/>
+				<xs:element ref="invocatio"/>
+				<xs:element ref="intitulatio"/>
+				<xs:element ref="setPhrase"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>
